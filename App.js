@@ -1,5 +1,5 @@
-import React, { Component }from 'react';
-import TimerCountdown from "react-native-timer-countdown";
+import React, { Component } from 'react';
+import TimerCountdown from 'react-native-timer-countdown';
 // import TimerCountdown from "./TimerCountdown";
 import {
   View,
@@ -8,9 +8,9 @@ import {
   TextInput,
   ScrollView,
   Switch,
-  StyleSheet
-} from "react-native";
-import { Constants } from "expo";
+  StyleSheet,
+} from 'react-native';
+import { Constants } from 'expo';
 
 let timeLeft;
 let timeDuration;
@@ -24,7 +24,7 @@ export default class App extends React.Component {
       statusOngoing: true,
       workingTime: 0,
       breakTime: 0,
-      isStarted: false
+      isStarted: false,
     };
   }
 
@@ -41,15 +41,14 @@ export default class App extends React.Component {
     }
   }
 
-  handleReset() {
-
-  }
+  handleReset() {}
 
   stopCountdown() {
-    this.setState({ 
-      workingTime: 0, 
+    this.setState({
+      workingTime: 0,
       breakTime: 0,
-      isStarted: false });
+      isStarted: false,
+    });
   }
 
   startCountdown(w) {
@@ -59,64 +58,88 @@ export default class App extends React.Component {
     this.setState({
       workingTime: 7,
       breakTime: 3,
-      isStarted: true
+      isStarted: true,
     });
   }
 
   render() {
-    return <View style={styles.container}>
+    return (
+      <View style={styles.container}>
         <Text style={{ fontSize: 50 }}>AMA Timer</Text>
         <Text style={{ fontSize: 20 }}>Working time (min): </Text>
-        <TextInput style={styles.input} onchangText={workingTime => this.setState(
-              {
-                workingTime
-              }
-            )} value={this.state.workingTime} />
+        <TextInput
+          style={styles.input}
+          onchangText={workingTime =>
+            this.setState({
+              workingTime,
+            })
+          }
+          value={this.state.workingTime}
+        />
 
         <Text style={{ fontSize: 20 }}>Break time (min): </Text>
-        <TextInput style={styles.input} onchangText={breakTime => this.setState(
-              {
-                breakTime
-              }
-            )} value={this.state.breakTime} />
+        <TextInput
+          style={styles.input}
+          onchangText={breakTime =>
+            this.setState({
+              breakTime,
+            })
+          }
+          value={this.state.breakTime}
+        />
 
         <Text style={{ fontSize: 30 }}>
-          {this.state.statusOngoing ? "Working Time" : "Break Time"}
+          {this.state.statusOngoing ? 'Working Time' : 'Break Time'}
         </Text>
 
-        <TimerCountdown initialSecondsRemaining={this.state.workingTime * 1000 * 60} onTick={secondsRemaining => console.log("tick", secondsRemaining)} onTimeElapsed={() => console.log("complete")} allowFontScaling={true} style={styles.timer} />
+        <TimerCountdown
+          initialSecondsRemaining={this.state.workingTime * 1000 * 60}
+          onTick={secondsRemaining => console.log('tick', secondsRemaining)}
+          onTimeElapsed={() => console.log('complete')}
+          allowFontScaling={true}
+          style={styles.timer}
+        />
 
-        <Button title={this.state.isStarted ? "Stop" : "Start"} style={styles.button} onPress={() => this.handleClick()} />
-        <Button style={styles.button} onPress={() => this.handleReset()} title="Reset" />
-      </View>;
+        <Button
+          title={this.state.isStarted ? 'Stop' : 'Start'}
+          style={styles.button}
+          onPress={() => this.handleClick()}
+        />
+        <Button
+          style={styles.button}
+          onPress={() => this.handleReset()}
+          title="Reset"
+        />
+      </View>
+    );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center"
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   button: {
-    backgroundColor: "white",
+    backgroundColor: 'white',
     fontSize: 40,
     padding: 10,
-    textAlign: "center"
+    textAlign: 'center',
   },
   timer: {
-    color: "tomato",
+    color: 'tomato',
     fontSize: 75,
-    textAlign: "center",
-    margin: 10
+    textAlign: 'center',
+    margin: 10,
   },
   input: {
     height: 40,
     width: 200,
     fontSize: 25,
-    textAlign: "center",
-    borderColor: "gray", 
-    borderWidth: 1
-  }
+    textAlign: 'center',
+    borderColor: 'gray',
+    borderWidth: 1,
+  },
 });
