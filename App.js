@@ -13,26 +13,22 @@ import { Constants } from 'expo';
 // import {vibrate} from './utils';
 
 class Blink extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
-      isShowingText: true
+      isShowingText: true,
     };
 
     setInterval(() => {
-      this.setState(
-        previousState => {
-          return { isShowingText: !previousState.isShowingText };
-        }
-      )
+      this.setState(previousState => {
+        return { isShowingText: !previousState.isShowingText };
+      });
     }, 1000);
   }
 
   render() {
-    let display = this.state.isShowingText? this.props.text : " ";
-    return (
-      <Text>{display}</Text>
-    )
+    let display = this.state.isShowingText ? this.props.text : ' ';
+    return <Text>{display}</Text>;
   }
 }
 
@@ -40,7 +36,6 @@ export default class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      statusOngoing: true,
       workingTime: 20,
       breakTime: 5,
       isStarted: false,
@@ -49,7 +44,7 @@ export default class App extends React.Component {
       min: '00',
       sec: '00',
     };
-    this.setWorkingTime = this.setWorkingTime.bind(this)
+    this.setWorkingTime = this.setWorkingTime.bind(this);
   }
 
   // vibrate();
@@ -69,9 +64,6 @@ export default class App extends React.Component {
   }
 
   handleClick(event) {
-    const newWorkingTime = this.state.workingTime;
-    if (id === 'w') newWorkingTime.subtract(newWorkingTime.get('w'), 'w').add(parseInt(value), 'w');
-    this.setWorkingTime(newWorkingTime);
     if (this.state.isStarted == true) {
       this.stopCountdown();
     } else {
@@ -82,7 +74,6 @@ export default class App extends React.Component {
   handleReset() {}
 
   stopCountdown() {
-    
     this.setState({
       isStarted: false,
     });
@@ -125,22 +116,21 @@ export default class App extends React.Component {
   };
 
   setWorkingTime(newWorkingTime) {
-      this.setState({
-        workingTime: newWorkingTime,
-      });
+    this.setState({
+      workingTime: newWorkingTime,
+    });
   }
 
   render() {
     return (
       <View style={styles.container}>
-      
         <Text style={{ fontSize: 50 }}>AMA Timer</Text>
         <Text style={{ fontSize: 20 }}>Working time (min): </Text>
         <TextInput
-          id='w'
+          id="w"
           style={styles.input}
-          type='number'
-          placeholder='Enter time in minutes'
+          type="number"
+          placeholder="Enter time in minutes"
           onChangeText={this.setWorkingTime}
           value={this.state.workingTime}
         />
@@ -148,18 +138,18 @@ export default class App extends React.Component {
         <Text style={{ fontSize: 20 }}>Break time (min): </Text>
         <TextInput
           style={styles.input}
-          placeholder='Enter time in minutes'
-          onChangeText={(breakTime) =>
+          placeholder="Enter time in minutes"
+          onChangeText={breakTime =>
             this.setState({
-              breakTime
+              breakTime,
             })
           }
           value={this.state.breakTime}
         />
 
-        <Blink 
+        <Blink
           style={styles.blink}
-          text={this.state.statusOngoing ? 'Working Time' : 'Break Time'}
+          text={this.state.isWorking ? 'Working Time' : 'Break Time'}
         />
 
         <Timer min={this.state.min} sec={this.state.sec} />
@@ -200,7 +190,5 @@ const styles = StyleSheet.create({
     borderColor: 'gray',
     borderWidth: 1,
   },
-  blink: {
-    
-  }
+  blink: {},
 });
