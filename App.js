@@ -17,6 +17,30 @@ let timeDuration;
 let startTime;
 let w;
 
+class Blink extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      isShowingText: true
+    };
+
+    setInterval(() => {
+      this.setState(
+        previousState => {
+          return { isShowingText: !previousState.isShowingText };
+        }
+      )
+    }, 1000);
+  }
+
+  render() {
+    let display = this.state.isShowingText? this.props.text : " ";
+    return (
+      <Text>{display}</Text>
+    )
+  }
+}
+
 export default class App extends React.Component {
   constructor() {
     super();
@@ -37,7 +61,7 @@ export default class App extends React.Component {
     if (this.state.isStarted == true) {
       this.stopCountdown();
     } else {
-      this.startCountdown(this.state.workingTime);
+      this.startCountdown();
     }
   }
 
@@ -51,13 +75,13 @@ export default class App extends React.Component {
     });
   }
 
-  startCountdown(w) {
+  startCountdown() {
     // startTime = Date.now();
     // timeDuration = this.state.workingTime.value;
     // w = this.state.workingTime;
     this.setState({
-      workingTime: 7,
-      breakTime: 3,
+      workingTime: this.state.workingTime,
+      breakTime: this.state.breakTime,
       isStarted: true,
     });
   }
@@ -65,10 +89,12 @@ export default class App extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+      
         <Text style={{ fontSize: 50 }}>AMA Timer</Text>
         <Text style={{ fontSize: 20 }}>Working time (min): </Text>
         <TextInput
           style={styles.input}
+          placeholder='Type here'
           onchangText={workingTime =>
             this.setState({
               workingTime,
@@ -80,6 +106,7 @@ export default class App extends React.Component {
         <Text style={{ fontSize: 20 }}>Break time (min): </Text>
         <TextInput
           style={styles.input}
+          placeholder='Type here'
           onchangText={breakTime =>
             this.setState({
               breakTime,
@@ -88,9 +115,10 @@ export default class App extends React.Component {
           value={this.state.breakTime}
         />
 
-        <Text style={{ fontSize: 30 }}>
-          {this.state.statusOngoing ? 'Working Time' : 'Break Time'}
-        </Text>
+        <Blink 
+          style={styles.blink}
+          text={this.state.statusOngoing ? 'Working Time' : 'Break Time'}
+        />
 
         <TimerCountdown
           initialSecondsRemaining={this.state.workingTime * 1000 * 60}
@@ -118,7 +146,7 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: 'skyblue',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -142,4 +170,7 @@ const styles = StyleSheet.create({
     borderColor: 'gray',
     borderWidth: 1,
   },
+  blink: {
+    
+  }
 });
