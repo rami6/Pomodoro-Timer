@@ -10,7 +10,7 @@ import {
   StyleSheet,
 } from 'react-native';
 import { Constants } from 'expo';
-import {vibrate} from './utils';
+// import {vibrate} from './utils';
 
 class Blink extends Component {
   constructor(props){
@@ -52,7 +52,7 @@ export default class App extends React.Component {
     this.setWorkingTime = this.setWorkingTime.bind(this)
   }
 
-  vibrate();
+  // vibrate();
 
   componentDidMount() {
     if (this.state.isWorking) {
