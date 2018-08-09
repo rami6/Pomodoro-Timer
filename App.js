@@ -50,17 +50,7 @@ export default class App extends React.Component {
   // vibrate();
 
   componentDidMount() {
-    if (this.state.isWorking) {
-      this.setState({
-        countdownSec: this.state.workingTime * 60,
-        min: this.getTwoDigitsStr(this.state.workingTime),
-      });
-    } else {
-      this.setState({
-        countdownSec: this.state.breakTime * 60,
-        min: this.getTwoDigitsStr(this.state.breakTime),
-      });
-    }
+    this.setStartMin();
   }
 
   handleClick(event) {
@@ -71,7 +61,25 @@ export default class App extends React.Component {
     }
   }
 
-  handleReset() {}
+  handleReset() {
+    this.setStartMin();
+  }
+
+  setStartMin() {
+    if (this.state.isWorking) {
+      this.setState({
+        countdownSec: this.state.workingTime * 60,
+        min: this.getTwoDigitsStr(this.state.workingTime),
+        sec: '00',
+      });
+    } else {
+      this.setState({
+        countdownSec: this.state.breakTime * 60,
+        min: this.getTwoDigitsStr(this.state.breakTime),
+        sec: '00',
+      });
+    }
+  }
 
   stopCountdown() {
     this.setState({
