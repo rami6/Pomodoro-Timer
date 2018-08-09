@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import TimerCountdown from 'react-native-timer-countdown';
-// import TimerCountdown from "./TimerCountdown";
+import Timer from './Timer';
 import {
   View,
   Button,
@@ -22,22 +21,35 @@ export default class App extends React.Component {
     super();
     this.state = {
       statusOngoing: true,
-      workingTime: 0,
-      breakTime: 0,
+      workingTime: 25,
+      breakTime: 5,
       isStarted: false,
+      isWorking: true,
+      countdownSec: null,
+      min: '00',
+      sec: '00',
     };
   }
 
-  // timer() {
-  //   timeLeft = timeDuration - (((Date.now() - startTime)/1000 | 0);
-  //   initialSecondsRemaining={timeLeft * 1000 * 60};
-  // }
+  componentDidMount() {
+    if (this.state.isWorking) {
+      this.setState({
+        countdownSec: this.state.workingTime * 60,
+        min: this.getTwoDigitsStr(this.state.workingTime),
+      });
+    } else {
+      this.setState({
+        countdownSec: this.state.breakTime * 60,
+        min: this.getTwoDigitsStr(this.state.breakTime),
+      });
+    }
+  }
 
   handleClick(event) {
     if (this.state.isStarted == true) {
       this.stopCountdown();
     } else {
-      this.startCountdown(this.state.workingTime);
+      this.startCountdown();
     }
   }
 
@@ -45,22 +57,45 @@ export default class App extends React.Component {
 
   stopCountdown() {
     this.setState({
-      workingTime: 0,
-      breakTime: 0,
       isStarted: false,
     });
+    clearInterval(this.interval);
   }
 
-  startCountdown(w) {
-    // startTime = Date.now();
-    // timeDuration = this.state.workingTime.value;
-    // w = this.state.workingTime;
+  startCountdown() {
     this.setState({
-      workingTime: 7,
-      breakTime: 3,
       isStarted: true,
     });
+    this.interval = setInterval(this.count, 1000);
   }
+
+  getTwoDigitsStr = num => {
+    numStr = num.toString();
+    if (Math.floor(num / 10) == 0) {
+      return '0' + numStr;
+    }
+    return numStr;
+  };
+
+  setTimerView = () => {
+    let minNum = Math.floor(this.state.countdownSec / 60);
+    let secNum = this.state.countdownSec % 60;
+    let minStr = this.getTwoDigitsStr(minNum);
+    let secStr = this.getTwoDigitsStr(secNum);
+
+    this.setState({
+      min: minStr,
+      sec: secStr,
+    });
+  };
+
+  count = () => {
+    this.setState(prevState => ({
+      countdownSec: prevState.countdownSec - 1,
+    }));
+
+    this.setTimerView();
+  };
 
   render() {
     return (
@@ -92,13 +127,7 @@ export default class App extends React.Component {
           {this.state.statusOngoing ? 'Working Time' : 'Break Time'}
         </Text>
 
-        <TimerCountdown
-          initialSecondsRemaining={this.state.workingTime * 1000 * 60}
-          onTick={secondsRemaining => console.log('tick', secondsRemaining)}
-          onTimeElapsed={() => console.log('complete')}
-          allowFontScaling={true}
-          style={styles.timer}
-        />
+        <Timer min={this.state.min} sec={this.state.sec} />
 
         <Button
           title={this.state.isStarted ? 'Stop' : 'Start'}
@@ -127,12 +156,6 @@ const styles = StyleSheet.create({
     fontSize: 40,
     padding: 10,
     textAlign: 'center',
-  },
-  timer: {
-    color: 'tomato',
-    fontSize: 75,
-    textAlign: 'center',
-    margin: 10,
   },
   input: {
     height: 40,
