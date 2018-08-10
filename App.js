@@ -8,6 +8,7 @@ import {
   ScrollView,
   Switch,
   StyleSheet,
+  Vibration,
 } from 'react-native';
 import { Constants } from 'expo';
 // import {vibrate} from './utils';
@@ -49,29 +50,33 @@ export default class App extends React.Component {
       min: '00',
       sec: '00',
     };
-    this.setWorkingTime = this.setWorkingTime.bind(this)
+    // this.setWorkingTime = this.setWorkingTime.bind(this)
   }
 
   // vibrate();
 
-  componentDidMount() {
-    if (this.state.isWorking) {
-      this.setState({
-        countdownSec: this.state.workingTime * 60,
-        min: this.getTwoDigitsStr(this.state.workingTime),
-      });
-    } else {
-      this.setState({
-        countdownSec: this.state.breakTime * 60,
-        min: this.getTwoDigitsStr(this.state.breakTime),
-      });
-    }
+  handleVibrate() {
+    Vibration.vibrate([1000, 1000, 1000])
   }
 
+  // componentDidMount() {
+  //   if (this.state.isWorking) {
+  //     this.setState({
+  //       countdownSec: this.state.workingTime * 60,
+  //       min: this.getTwoDigitsStr(this.state.workingTime),
+  //     });
+  //   } else {
+  //     this.setState({
+  //       countdownSec: this.state.breakTime * 60,
+  //       min: this.getTwoDigitsStr(this.state.breakTime),
+  //     });
+  //   }
+  // }
+
   handleClick(event) {
-    const newWorkingTime = this.state.workingTime;
-    if (id === 'w') newWorkingTime.subtract(newWorkingTime.get('w'), 'w').add(parseInt(value), 'w');
-    this.setWorkingTime(newWorkingTime);
+    // const newWorkingTime = this.state.workingTime;
+    // if (id === 'w') newWorkingTime.subtract(newWorkingTime.get('w'), 'w').add(parseInt(value), 'w');
+    // this.setWorkingTime(newWorkingTime);
     if (this.state.isStarted == true) {
       this.stopCountdown();
     } else {
@@ -82,7 +87,6 @@ export default class App extends React.Component {
   handleReset() {}
 
   stopCountdown() {
-    
     this.setState({
       isStarted: false,
     });
@@ -121,28 +125,39 @@ export default class App extends React.Component {
       countdownSec: prevState.countdownSec - 1,
     }));
 
+    if (this.state.countdownSec === 0) {
+      console.log("vi");
+      handleVibrate.vibrate;
+    }
     this.setTimerView();
   };
 
-  setWorkingTime(newWorkingTime) {
+  setWorkingTime = (newWorkingTime) => {
+    console.log(newWorkingTime)
       this.setState({
         workingTime: newWorkingTime,
+        countdownSec: this.state.workingTime * 60,
+        min: this.getTwoDigitsStr(this.state.workingTime),
       });
   }
 
   render() {
     return (
       <View style={styles.container}>
-      
         <Text style={{ fontSize: 50 }}>AMA Timer</Text>
         <Text style={{ fontSize: 20 }}>Working time (min): </Text>
         <TextInput
-          id='w'
+          // id='w'
           style={styles.input}
-          type='number'
+          // type='number'
           placeholder='Enter time in minutes'
-          onChangeText={this.setWorkingTime}
-          value={this.state.workingTime}
+          //onChangeText={this.setWorkingTime}
+          onChangeText={(text)=> this.setState({
+            workingTime: text,
+            countdownSec: text * 60,
+            min: this.getTwoDigitsStr(text),
+          })}
+          value={this.state.input}
         />
 
         <Text style={{ fontSize: 20 }}>Break time (min): </Text>
