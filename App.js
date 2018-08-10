@@ -147,7 +147,7 @@ export default class App extends React.Component {
           // id='w'
           style={styles.input}
           // type='number'
-          placeholder='Enter time in minutes'
+          placeholder='Enter time 5 - 25'
           //onChangeText={this.setWorkingTime}
           onChangeText={(text)=> this.setState({
             workingTime: text,
@@ -160,13 +160,15 @@ export default class App extends React.Component {
         <Text style={{ fontSize: 20 }}>Break time (min): </Text>
         <TextInput
           style={styles.input}
-          placeholder="Enter time in minutes"
-          onChangeText={breakTime =>
+          placeholder="Enter time 5 - 25"
+          onChangeText={(text) => 
             this.setState({
-              breakTime,
+              breakTime : text,
+              countdownSec: text * 60,
+              min: this.getTwoDigitsStr(text),
             })
           }
-          value={this.state.breakTime}
+          value={this.state.input}
         />
 
         <Blink
