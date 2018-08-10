@@ -47,8 +47,6 @@ export default class App extends React.Component {
     };
   }
 
-  // vibrate();
-
   handleVibrate() {
     Vibration.vibrate([1000, 1000, 1000]);
   }
@@ -125,13 +123,12 @@ export default class App extends React.Component {
     }));
 
     if (this.state.countdownSec === 0) {
-      console.log("vi");
+      console.log('vi');
       this.handleVibrate();
       this.stopCountdown();
     }
     this.setTimerView();
   };
-
 
   setWorkingTime(newWorkingTime) {
     this.setState({
@@ -148,13 +145,15 @@ export default class App extends React.Component {
           // id='w'
           style={styles.input}
           // type='number'
-          placeholder='Enter time 5 - 25'
+          placeholder="Enter time 5 - 25"
           //onChangeText={this.setWorkingTime}
-          onChangeText={(text)=> this.setState({
-            workingTime: text,
-            countdownSec: text * 60,
-            min: this.getTwoDigitsStr(text),
-          })}
+          onChangeText={text =>
+            this.setState({
+              workingTime: text,
+              countdownSec: text * 60,
+              min: this.getTwoDigitsStr(text),
+            })
+          }
           value={this.state.input}
         />
 
@@ -162,9 +161,9 @@ export default class App extends React.Component {
         <TextInput
           style={styles.input}
           placeholder="Enter time 5 - 25"
-          onChangeText={(text) => 
+          onChangeText={text =>
             this.setState({
-              breakTime : text,
+              breakTime: text,
               countdownSec: text * 60,
               min: this.getTwoDigitsStr(text),
             })
