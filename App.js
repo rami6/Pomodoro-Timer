@@ -11,7 +11,6 @@ import {
   Vibration,
 } from 'react-native';
 import { Constants } from 'expo';
-// import {vibrate} from './utils';
 
 class Blink extends Component {
   constructor(props) {
@@ -126,6 +125,10 @@ export default class App extends React.Component {
       console.log('vi');
       this.handleVibrate();
       this.stopCountdown();
+      this.setState(prevState => ({
+        isWorking: !prevState.isWorking,
+      }));
+      this.setStartMin();
     }
     this.setTimerView();
   };
