@@ -50,7 +50,7 @@ export default class App extends React.Component {
   // vibrate();
 
   handleVibrate() {
-    Vibration.vibrate([1000, 1000, 1000])
+    Vibration.vibrate([1000, 1000, 1000]);
   }
 
   componentDidMount() {
@@ -127,6 +127,7 @@ export default class App extends React.Component {
     if (this.state.countdownSec === 0) {
       console.log("vi");
       this.handleVibrate();
+      this.stopCountdown();
     }
     this.setTimerView();
   };
