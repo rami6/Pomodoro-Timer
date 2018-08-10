@@ -5,8 +5,7 @@ import {
   Button,
   Text,
   TextInput,
-  ScrollView,
-  Switch,
+  Alert,
   StyleSheet,
   Vibration,
 } from 'react-native';
@@ -128,6 +127,7 @@ export default class App extends React.Component {
       this.setState(prevState => ({
         isWorking: !prevState.isWorking,
       }));
+      this.showAlert();
       this.setStartMin();
     }
     this.setTimerView();
@@ -137,6 +137,30 @@ export default class App extends React.Component {
     this.setState({
       workingTime: newWorkingTime,
     });
+  }
+
+  showAlert() {
+    let title;
+    let message;
+    if (!this.state.isWorking) {
+      title = 'Finish work';
+      message = "It's time to break!";
+    } else {
+      title = 'Finish break';
+      message = "It's time to work!";
+    }
+    Alert.alert(
+      title,
+      message,
+      [
+        {
+          text: 'OK',
+        },
+      ],
+      {
+        cancelable: false,
+      }
+    );
   }
 
   render() {
