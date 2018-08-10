@@ -145,16 +145,11 @@ export default class App extends React.Component {
         <Text style={{ fontSize: 50 }}>AMA Timer</Text>
         <Text style={{ fontSize: 20 }}>Working time (min): </Text>
         <TextInput
-          // id='w'
           style={styles.input}
-          // type='number'
           placeholder="Enter time 5 - 25"
-          //onChangeText={this.setWorkingTime}
           onChangeText={text =>
             this.setState({
               workingTime: text,
-              countdownSec: text * 60,
-              min: this.getTwoDigitsStr(text),
             })
           }
           value={this.state.input}
@@ -167,8 +162,6 @@ export default class App extends React.Component {
           onChangeText={text =>
             this.setState({
               breakTime: text,
-              countdownSec: text * 60,
-              min: this.getTwoDigitsStr(text),
             })
           }
           value={this.state.input}
