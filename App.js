@@ -8,6 +8,7 @@ import {
   ScrollView,
   Switch,
   StyleSheet,
+  Vibration,
 } from 'react-native';
 import { Constants } from 'expo';
 // import {vibrate} from './utils';
@@ -44,10 +45,13 @@ export default class App extends React.Component {
       min: '00',
       sec: '00',
     };
-    this.setWorkingTime = this.setWorkingTime.bind(this);
   }
 
   // vibrate();
+
+  handleVibrate() {
+    Vibration.vibrate([1000, 1000, 1000])
+  }
 
   componentDidMount() {
     this.setStartMin();
@@ -120,8 +124,13 @@ export default class App extends React.Component {
       countdownSec: prevState.countdownSec - 1,
     }));
 
+    if (this.state.countdownSec === 0) {
+      console.log("vi");
+      handleVibrate.vibrate;
+    }
     this.setTimerView();
   };
+
 
   setWorkingTime(newWorkingTime) {
     this.setState({
@@ -135,12 +144,17 @@ export default class App extends React.Component {
         <Text style={{ fontSize: 50 }}>AMA Timer</Text>
         <Text style={{ fontSize: 20 }}>Working time (min): </Text>
         <TextInput
-          id="w"
+          // id='w'
           style={styles.input}
-          type="number"
-          placeholder="Enter time in minutes"
-          onChangeText={this.setWorkingTime}
-          value={this.state.workingTime}
+          // type='number'
+          placeholder='Enter time in minutes'
+          //onChangeText={this.setWorkingTime}
+          onChangeText={(text)=> this.setState({
+            workingTime: text,
+            countdownSec: text * 60,
+            min: this.getTwoDigitsStr(text),
+          })}
+          value={this.state.input}
         />
 
         <Text style={{ fontSize: 20 }}>Break time (min): </Text>
