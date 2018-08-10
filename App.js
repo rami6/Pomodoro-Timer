@@ -14,26 +14,22 @@ import { Constants } from 'expo';
 // import {vibrate} from './utils';
 
 class Blink extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
-      isShowingText: true
+      isShowingText: true,
     };
 
     setInterval(() => {
-      this.setState(
-        previousState => {
-          return { isShowingText: !previousState.isShowingText };
-        }
-      )
+      this.setState(previousState => {
+        return { isShowingText: !previousState.isShowingText };
+      });
     }, 1000);
   }
 
   render() {
-    let display = this.state.isShowingText? this.props.text : " ";
-    return (
-      <Text>{display}</Text>
-    )
+    let display = this.state.isShowingText ? this.props.text : ' ';
+    return <Text>{display}</Text>;
   }
 }
 
@@ -41,7 +37,6 @@ export default class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      statusOngoing: true,
       workingTime: 20,
       breakTime: 5,
       isStarted: false,
@@ -50,7 +45,6 @@ export default class App extends React.Component {
       min: '00',
       sec: '00',
     };
-    // this.setWorkingTime = this.setWorkingTime.bind(this)
   }
 
   // vibrate();
@@ -59,24 +53,21 @@ export default class App extends React.Component {
     Vibration.vibrate([1000, 1000, 1000])
   }
 
-  // componentDidMount() {
-  //   if (this.state.isWorking) {
-  //     this.setState({
-  //       countdownSec: this.state.workingTime * 60,
-  //       min: this.getTwoDigitsStr(this.state.workingTime),
-  //     });
-  //   } else {
-  //     this.setState({
-  //       countdownSec: this.state.breakTime * 60,
-  //       min: this.getTwoDigitsStr(this.state.breakTime),
-  //     });
-  //   }
-  // }
+  componentDidMount() {
+    if (this.state.isWorking) {
+      this.setState({
+        countdownSec: this.state.workingTime * 60,
+        min: this.getTwoDigitsStr(this.state.workingTime),
+      });
+    } else {
+      this.setState({
+        countdownSec: this.state.breakTime * 60,
+        min: this.getTwoDigitsStr(this.state.breakTime),
+      });
+    }
+  }
 
   handleClick(event) {
-    // const newWorkingTime = this.state.workingTime;
-    // if (id === 'w') newWorkingTime.subtract(newWorkingTime.get('w'), 'w').add(parseInt(value), 'w');
-    // this.setWorkingTime(newWorkingTime);
     if (this.state.isStarted == true) {
       this.stopCountdown();
     } else {
@@ -132,13 +123,11 @@ export default class App extends React.Component {
     this.setTimerView();
   };
 
-  setWorkingTime = (newWorkingTime) => {
-    console.log(newWorkingTime)
-      this.setState({
-        workingTime: newWorkingTime,
-        countdownSec: this.state.workingTime * 60,
-        min: this.getTwoDigitsStr(this.state.workingTime),
-      });
+
+  setWorkingTime(newWorkingTime) {
+    this.setState({
+      workingTime: newWorkingTime,
+    });
   }
 
   render() {
@@ -163,18 +152,18 @@ export default class App extends React.Component {
         <Text style={{ fontSize: 20 }}>Break time (min): </Text>
         <TextInput
           style={styles.input}
-          placeholder='Enter time in minutes'
-          onChangeText={(breakTime) =>
+          placeholder="Enter time in minutes"
+          onChangeText={breakTime =>
             this.setState({
-              breakTime
+              breakTime,
             })
           }
           value={this.state.breakTime}
         />
 
-        <Blink 
+        <Blink
           style={styles.blink}
-          text={this.state.statusOngoing ? 'Working Time' : 'Break Time'}
+          text={this.state.isWorking ? 'Working Time' : 'Break Time'}
         />
 
         <Timer min={this.state.min} sec={this.state.sec} />
@@ -215,7 +204,5 @@ const styles = StyleSheet.create({
     borderColor: 'gray',
     borderWidth: 1,
   },
-  blink: {
-    
-  }
+  blink: {},
 });
