@@ -118,7 +118,7 @@ export default class App extends React.Component {
 
     if (this.state.countdownSec === 0) {
       console.log("vi");
-      handleVibrate.vibrate;
+      this.handleVibrate();
     }
     this.setTimerView();
   };
